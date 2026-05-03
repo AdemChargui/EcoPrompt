@@ -1,117 +1,133 @@
-# ⚡ EcoRoute — AI Energy Optimizer
+@"
+# EcoPrompt — Smart AI Model Selector for Claude & ChatGPT
 
-> A browser extension that automatically detects prompt complexity and routes each AI query to the most energy-efficient model capable of answering it — passively reducing AI energy consumption without changing user behavior.
+**Automatically route your prompts to the optimal AI model based on complexity. Save costs, reduce energy consumption, and get faster responses — all without thinking about which model to use.**
 
-**Hackathon submission for IEEE PES Green AI Challenge**
-Tracks addressed: **A** (smarter model selection) · **B** (real-time energy cost) · **C** (passive reduction)
-
----
-
-## The Problem
-
-Every AI query has an energy cost. Asking "what's the capital of France?" on GPT-4.5 consumes ~25x more energy than it needs to. Most users default to the biggest, most powerful model for every task — even simple ones. This wastes energy at massive scale.
-
-**EcoRoute fixes this automatically, without asking users to do anything differently.**
+<p align="center">
+  <b>⚡ Smart Routing · 🌱 Eco-Friendly · 💰 Cost-Saving</b>
+</p>
 
 ---
 
-## How It Works
+## 🌿 What It Does
 
-```
-User types prompt → Complexity classifier → Model tier selected → Badge shows energy cost
-                                                                 ↓
-                                                     Stats stored → Popup dashboard
-```
+EcoPrompt is a Chrome extension that analyzes your prompt's complexity using **NVIDIA's prompt-task-and-complexity-classifier** running locally, then automatically selects and switches to the most appropriate AI model. A simple "hello" goes to Haiku, a complex system design goes to Sonnet 4.6.
 
-### Complexity Classifier
-A pure JavaScript heuristic engine that analyzes:
-- **Token count** — longer prompts need more processing
-- **Complexity keywords** — "analyze", "compare", "implement" vs "what is", "define"
-- **Code detection** — presence of code blocks, syntax patterns
-- **Multi-task patterns** — numbered steps, multiple questions
-- **Intent signals** — question marks, data references
-
-Output: score 0–100 → tier: `low` / `medium` / `high`
-
-### Energy Model
-Based on published research benchmarks:
-
-| Tier | Examples | Energy/query | CO₂/query |
-|------|----------|-------------|-----------|
-| Small | Haiku, GPT-4o mini | ~1 mWh | ~0.43 μg |
-| Mid | Sonnet, GPT-4o | ~6 mWh | ~2.57 μg |
-| Large | Opus, o1, GPT-4.5 | ~25 mWh | ~10.7 μg |
-
-CO₂ intensity: **0.429 kg CO₂/kWh** (IEA Global Average 2024)
-
-### Energy Sources (Published Benchmarks)
-- **Luccioni et al. (2023)** "Power Hungry Processing: Watts Driving the Cost of AI Deployment?" — [arxiv.org/abs/2311.16863](https://arxiv.org/abs/2311.16863)
-- **Patterson et al. (2021)** "Carbon and the Cloud" — [arxiv.org/abs/2104.10350](https://arxiv.org/abs/2104.10350)
-- **IEA (2024)** "Electricity 2024" — global grid carbon intensity
-- **Samsi et al. (2023)** "From Words to Watts: Benchmarking the Energy Costs of Large Language Model Inference"
+| Platform | 🟢 Low Complexity | 🟡 Medium Complexity | 🔴 High Complexity |
+|----------|-------------------|----------------------|---------------------|
+| **Claude.ai** | Claude Haiku 4.5 | Claude Sonnet 4.5 | Claude Sonnet 4.6 |
+| **ChatGPT** | GPT-4o Mini | GPT-4o | o1 / GPT-4.5 |
+| **Gemini** | Gemini Flash | Gemini Pro | Gemini Ultra |
+| **Perplexity** | Standard | Pro | Pro Advanced |
 
 ---
 
-## Installation
+## ✨ Features
 
-1. Clone this repo: `git clone https://github.com/YOUR_USERNAME/ecoroute`
-2. Open Chrome → `chrome://extensions`
-3. Enable **Developer mode** (top right toggle)
-4. Click **Load unpacked** → select the `ecoroute` folder
-5. Visit [claude.ai](https://claude.ai), [chatgpt.com](https://chatgpt.com), or [gemini.google.com](https://gemini.google.com)
-6. Start typing — the EcoRoute badge will appear in the bottom-right
-
----
-
-## Features
-
-- **Real-time badge** — shows model tier, estimated Wh, CO₂ cost as you type
-- **Manual override** — click the dropdown to force a specific tier
-- **Session dashboard** — popup shows total energy saved, CO₂ avoided, model distribution
-- **Multi-platform** — works on ChatGPT, Claude, Gemini, Perplexity
-- **Zero behavior change** — passive by default, users don't need to do anything
-- **Privacy-first** — no data leaves your browser, all processing is local
+- 🔍 **Real-time Complexity Analysis** — NVIDIA's DeBERTa-v3 classifier evaluates your prompt as you type
+- 🤖 **Automatic Model Switching** — Seamlessly switches Claude's model selector before you hit send
+- 📊 **Live On-Screen Badge** — Shows predicted model tier, complexity score, and task type
+- 💰 **Cost Estimation** — See estimated API costs before submitting
+- 🌱 **Energy Tracking** — Monitor watt-hours consumed and CO2 emissions saved
+- 🎯 **Manual Override** — Force Low/Mid/High tier when you want full control
+- 🔄 **Smart Fallback Chains** — If primary model is unavailable, automatically tries alternatives
+- 📦 **100% Local Classification** — Your prompts never leave your machine for analysis
 
 ---
 
-## Supported Platforms
+## 🚀 Quick Start
 
-| Platform | Status |
-|----------|--------|
-| claude.ai | ✅ |
-| chatgpt.com | ✅ |
-| gemini.google.com | ✅ |
-| perplexity.ai | ✅ |
+### Prerequisites
+- Python 3.10+ with pip
+- Chrome / Edge / Brave browser
+- ~2GB free RAM for the classifier model
 
----
+### 1. Clone & Install
+` + "``" + `bash
+git clone https://github.com/YOUR_USERNAME/ecoprompt.git
+cd ecoprompt
+pip install -r requirements.txt
+` + "``" + `
 
-## Project Structure
+### 2. Start the Classifier Server
+` + "``" + `bash
+python nvidia_classifier_server.py
+` + "``" + `
 
-```
-ecoroute/
-├── manifest.json      # Chrome Extension Manifest V3
-├── classifier.js      # Heuristic prompt complexity scorer
-├── energy.js          # Energy/CO₂ estimation model
-├── content.js         # Injected badge UI + interaction logic
-├── content.css        # Badge styles
-├── popup.html         # Extension popup dashboard
-├── popup.js           # Dashboard data rendering
-├── popup.css          # Dashboard styles
-├── background.js      # Service worker + badge counter
-└── icons/             # Extension icons
-```
+Keep this terminal open! You should see:
+` + "``" + `
+[EcoPrompt] Loading nvidia/prompt-task-and-complexity-classifier ...
+[EcoPrompt] Model ready ✅
+INFO:     Uvicorn running on http://127.0.0.1:8000
+` + "``" + `
 
----
+### 3. Load the Extension
+1. Go to ` + "`" + `chrome://extensions/` + "`" + `
+2. Enable **Developer mode**
+3. Click **Load unpacked**
+4. Select the ` + "`" + `ecoprompt` + "`" + ` folder
 
-## Roadmap
-
-- [ ] ONNX.js lightweight ML classifier (replace heuristics)
-- [ ] API-level routing (intercept requests and switch models automatically)
-- [ ] Carbon intensity by region (use real-time grid data)
-- [ ] Weekly/monthly CO₂ report export
-- [ ] Firefox support
+### 4. Start Using
+Go to **claude.ai** or **chatgpt.com** and start typing — the badge appears automatically!
 
 ---
 
-## License
-MIT — built for IEEE PES Green AI Hackathon
+## 🏗️ How It Works
+
+1. **You type a prompt** on Claude.ai or ChatGPT
+2. **EcoPrompt sends it** to the local NVIDIA classifier (port 8000)
+3. **Classifier analyzes** 6 dimensions: creativity, reasoning, constraints, domain knowledge, contextual knowledge, and few-shots
+4. **Returns complexity score** (0.0–1.0) and task type (code, creative, QA, etc.)
+5. **EcoPrompt selects** optimal model tier (Low/Medium/High)
+6. **Claude's model selector** is automatically switched before submission
+
+---
+
+## 🎮 Manual Override
+
+Click the badge dropdown to force a specific tier:
+
+| Option | Models |
+|--------|--------|
+| 🟢 **Small** | Haiku · GPT-4o Mini · Flash |
+| 🟡 **Mid** | Sonnet · GPT-4o · Pro |
+| 🔴 **Large** | Opus · o1 · GPT-4.5 |
+| ✨ **Auto** | Let EcoPrompt decide (default) |
+
+---
+
+## 📁 Project Structure
+
+` + "``" + `
+ecoprompt/
+├── manifest.json                 # Extension configuration
+├── background.js                 # Service worker (routing logic)
+├── content.js                    # Webpage injection (badge + Claude switcher)
+├── modelSelector.js              # Model selection decision matrix
+├── energy.js                     # Energy/CO2 calculations
+├── apiKeys.js                    # API key management
+├── popup.html/css/js             # Extension popup
+├── content.css                   # Badge styling
+├── nvidia_classifier_server.py   # Python FastAPI server
+├── requirements.txt              # Python dependencies
+└── icons/                        # Extension icons
+` + "``" + `
+
+---
+
+## 📝 License
+
+MIT License — see [LICENSE](LICENSE) file
+
+---
+
+## 🙏 Acknowledgments
+
+- **NVIDIA** for the [prompt-task-and-complexity-classifier](https://huggingface.co/nvidia/prompt-task-and-complexity-classifier)
+- **Anthropic** & **OpenAI** for their AI platforms
+- **FastAPI** for the Python server framework
+
+---
+
+**Made with ⚡ for smarter, greener AI**
+"@ | Out-File -FilePath "README.md" -Encoding UTF8
