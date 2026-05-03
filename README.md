@@ -117,7 +117,7 @@ ecoprompt/
 
 ## 📝 License
 
-MIT License — see [LICENSE](LICENSE) file
+Made By Adam Chargui & Othman Jedidi & Med Islem Ben Rhouma 
 
 ---
 
@@ -130,4 +130,3 @@ MIT License — see [LICENSE](LICENSE) file
 ---
 
 **Made with ⚡ for smarter, greener AI**
-"@ | Out-File -FilePath "README.md" -Encoding UTF8
