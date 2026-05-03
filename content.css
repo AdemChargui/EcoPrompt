@@ -1,0 +1,176 @@
+/* content.css — EcoRoute badge styles */
+
+#ecoroute-badge {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  background: #ffffff;
+  border: 1px solid #e0dfd8;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 13px;
+  color: #2c2c2a;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06);
+  min-width: 220px;
+  max-width: 280px;
+  transition: opacity 0.2s ease;
+  user-select: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  #ecoroute-badge {
+    background: #1e1e1c;
+    border-color: #3a3a38;
+    color: #d4d2c8;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+}
+
+.er-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.er-top {
+  margin-bottom: 7px;
+}
+
+.er-logo {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.er-brand {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5F5E5A;
+  letter-spacing: 0.02em;
+  flex: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  .er-brand { color: #888780; }
+}
+
+.er-tier-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.er-override-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #888780;
+  padding: 2px 4px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: background 0.15s;
+}
+.er-override-btn:hover { background: #f1efe8; }
+@media (prefers-color-scheme: dark) {
+  .er-override-btn:hover { background: #2c2c2a; }
+}
+
+.er-rec {
+  font-size: 12px;
+  margin: 2px 0 7px;
+  padding: 5px 8px;
+  background: #f8f7f2;
+  border-radius: 6px;
+  line-height: 1.3;
+}
+
+.er-stats {
+  font-size: 11px;
+  color: #888780;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.er-sep {
+  color: #d3d1c7;
+}
+
+.er-stat {
+  font-variant-numeric: tabular-nums;
+}
+
+.er-save {
+  font-weight: 500;
+}
+
+/* ── Dropdown ── */
+.er-dropdown {
+  margin-top: 10px;
+  border-top: 1px solid #e0dfd8;
+  padding-top: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .er-dropdown { border-top-color: #3a3a38; }
+}
+
+.er-dd-title {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888780;
+  margin-bottom: 6px;
+}
+
+.er-dd-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  background: none;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #2c2c2a;
+  text-align: left;
+  transition: background 0.12s;
+}
+
+.er-dd-opt:hover { background: #f1efe8; }
+
+@media (prefers-color-scheme: dark) {
+  .er-dd-opt { color: #d4d2c8; }
+  .er-dd-opt:hover { background: #2c2c2a; }
+}
+
+.er-dd-icon {
+  font-size: 10px;
+  width: 22px;
+  text-align: center;
+}
+
+.er-dd-label {
+  font-weight: 500;
+  flex: 1;
+}
+
+.er-dd-sub {
+  font-size: 10px;
+  color: #888780;
+}
+
+.er-dd-auto .er-dd-icon {
+  color: #7F77DD;
+}

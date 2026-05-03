@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "EcoRoute AI",
+  "version": "3.0",
+  "description": "Smart AI model selector — uses NVIDIA classifier to pick the optimal model for your prompt",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "http://127.0.0.1:8000/*",
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*",
+    "https://api.together.xyz/*",
+    "http://localhost:11434/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.claude.ai/*",
+        "*://*.chatgpt.com/*",
+        "*://*.chat.openai.com/*",
+        "*://*.gemini.google.com/*",
+        "*://*.perplexity.ai/*"
+      ],
+      "js": ["energy.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "EcoRoute AI"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

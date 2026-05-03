@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EcoRoute</title>
+  <link rel="stylesheet" href="popup.css"/>
+</head>
+<body>
+  <div class="popup">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <span class="logo">⚡</span>
+        <div>
+          <div class="app-name">EcoRoute</div>
+          <div class="tagline">AI Energy Optimizer</div>
+        </div>
+      </div>
+      <button class="reset-btn" id="reset-btn" title="Reset stats">↺</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-bar">
+      <button class="tab active" data-tab="stats">Stats</button>
+      <button class="tab" data-tab="model">Last Model</button>
+      <button class="tab" data-tab="keys">API Keys</button>
+    </div>
+
+    <!-- ── Tab: Stats ────────────────────────────────────────────── -->
+    <div id="tab-stats">
+      <!-- Session impact banner -->
+      <div class="impact-banner" id="impact-banner">
+        <div class="impact-main" id="impact-main">0 mWh saved</div>
+        <div class="impact-sub" id="impact-sub">Start using AI to track energy savings</div>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-label">Queries routed</div>
+          <div class="stat-value" id="stat-queries">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Energy saved</div>
+          <div class="stat-value green" id="stat-wh">0 mWh</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">CO₂ avoided</div>
+          <div class="stat-value green" id="stat-co2">0 mg</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Efficiency</div>
+          <div class="stat-value" id="stat-eff">—</div>
+        </div>
+      </div>
+
+      <!-- Model distribution -->
+      <div class="section-title">Model distribution</div>
+      <div class="dist-section">
+        <div class="dist-row">
+          <span class="dist-label" style="color:#085041">▲ Small</span>
+          <div class="dist-bar-wrap">
+            <div class="dist-bar" id="bar-low" style="background:#1D9E75;width:0%"></div>
+          </div>
+          <span class="dist-count" id="count-low">0</span>
+        </div>
+        <div class="dist-row">
+          <span class="dist-label" style="color:#633806">▲▲ Mid</span>
+          <div class="dist-bar-wrap">
+            <div class="dist-bar" id="bar-medium" style="background:#BA7517;width:0%"></div>
+          </div>
+          <span class="dist-count" id="count-medium">0</span>
+        </div>
+        <div class="dist-row">
+          <span class="dist-label" style="color:#712B13">▲▲▲ Large</span>
+          <div class="dist-bar-wrap">
+            <div class="dist-bar" id="bar-high" style="background:#D85A30;width:0%"></div>
+          </div>
+          <span class="dist-count" id="count-high">0</span>
+        </div>
+      </div>
+
+      <!-- Energy source note -->
+      <div class="section-title">Energy estimates based on</div>
+      <div class="sources">
+        <div class="source-row">
+          <span class="source-dot" style="background:#1D9E75"></span>
+          <span>Luccioni et al. (2023) — LLM inference benchmarks</span>
+        </div>
+        <div class="source-row">
+          <span class="source-dot" style="background:#7F77DD"></span>
+          <span>IEA (2024) — 0.429 kg CO₂/kWh global grid avg</span>
+        </div>
+        <div class="source-row">
+          <span class="source-dot" style="background:#378ADD"></span>
+          <span>Patterson et al. (2021) — Carbon and the Cloud</span>
+        </div>
+      </div>
+
+      <div class="footer">Active on ChatGPT · Claude · Gemini · Perplexity</div>
+    </div>
+
+    <!-- ── Tab: Last Model ───────────────────────────────────────── -->
+    <div id="tab-model" style="display:none">
+      <div class="model-card" id="model-card">
+        <div class="model-none" id="model-none">No query routed yet — type a prompt!</div>
+        <div id="model-details" style="display:none">
+          <div class="model-header">
+            <span class="model-icon" id="m-icon">⚡</span>
+            <div>
+              <div class="model-name" id="m-name">—</div>
+              <div class="model-provider" id="m-provider">—</div>
+            </div>
+            <span class="model-tier-badge" id="m-tier">—</span>
+          </div>
+          <div class="model-reason" id="m-reason">—</div>
+          <div class="model-meta-row">
+            <span class="model-meta-label">Est. cost</span>
+            <span class="model-meta-val green" id="m-cost">—</span>
+          </div>
+          <div class="model-meta-row">
+            <span class="model-meta-label">Est. tokens</span>
+            <span class="model-meta-val" id="m-tokens">—</span>
+          </div>
+          <div class="model-meta-row">
+            <span class="model-meta-label">Avg latency</span>
+            <span class="model-meta-val" id="m-latency">—</span>
+          </div>
+          <div class="model-meta-row">
+            <span class="model-meta-label">From cache</span>
+            <span class="model-meta-val" id="m-cache">—</span>
+          </div>
+          <div class="section-title" style="margin-top:10px">Fallback chain</div>
+          <div class="fallback-chain" id="m-fallback">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Tab: API Keys ────────────────────────────────────────── -->
+    <div id="tab-keys" style="display:none">
+      <div class="keys-intro">Keys stored securely in Chrome local storage. Never sent to EcoRoute servers.</div>
+
+      <div class="key-section" id="key-openai">
+        <div class="key-label">
+          <span class="key-provider-dot" style="background:#10a37f"></span>
+          OpenAI
+          <span class="key-status" id="status-openai">⬜ not set</span>
+        </div>
+        <input class="key-input" id="input-openai" type="password" placeholder="sk-..."/>
+        <button class="key-save-btn" data-provider="openai">Save</button>
+      </div>
+
+      <div class="key-section" id="key-anthropic">
+        <div class="key-label">
+          <span class="key-provider-dot" style="background:#D97757"></span>
+          Anthropic
+          <span class="key-status" id="status-anthropic">⬜ not set</span>
+        </div>
+        <input class="key-input" id="input-anthropic" type="password" placeholder="sk-ant-..."/>
+        <button class="key-save-btn" data-provider="anthropic">Save</button>
+      </div>
+
+      <div class="key-section" id="key-together">
+        <div class="key-label">
+          <span class="key-provider-dot" style="background:#7F77DD"></span>
+          Together.ai
+          <span class="key-status" id="status-together">⬜ not set</span>
+        </div>
+        <input class="key-input" id="input-together" type="password" placeholder="API key..."/>
+        <button class="key-save-btn" data-provider="together">Save</button>
+      </div>
+
+      <div class="key-section">
+        <div class="key-label">
+          <span class="key-provider-dot" style="background:#1D9E75"></span>
+          Local (Ollama)
+          <span class="key-status" style="color:#1D9E75">✅ always on</span>
+        </div>
+        <div style="color:#888;font-size:11px;margin-top:4px">
+          Run <code>ollama serve</code> on localhost:11434 — no key needed.
+        </div>
+      </div>
+
+      <div class="key-note" id="key-save-status"></div>
+    </div>
+
+  </div><!-- /.popup -->
+
+  <script src="energy.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
