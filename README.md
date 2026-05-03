@@ -1,6 +1,5 @@
 https://github.com/user-attachments/assets/d9c0e173-884f-4c2d-a89e-0efdca6af15a
 
-@"
 # EcoPrompt — Smart AI Model Selector for Claude & ChatGPT
 
 **Automatically route your prompts to the optimal AI model based on complexity. Save costs, reduce energy consumption, and get faster responses — all without thinking about which model to use.**
